@@ -7,20 +7,12 @@
 
 # Try to set local bin as prompt command
 
-if [[ ! "$PROMPT_COMMAND" ]]; then
-  export PROMPT_COMMAND='__local_bin_set_path'
-else
-  # if prompt command is set, invoke it and check whether
-  # local bin is working properly
-
-$PROMPT_COMMAND
-
-  [[ "${__LOCAL_BIN_WORKS}" ]] || cat <<ERROR
-local_bin is not configured properly. It tried to set PROMPT_COMMAND,
-but it seems that you already have one. In order to make local_bin work,
-you need to call __local_bin_set_path in your PROMPT_COMMAND.
-ERROR
+if [[ "$PROMPT_COMMAND" ]]; then
+  export __LOCAL_BIN_USER_PROMPT_COMMAND=$PROMPT_COMMAND
 fi
+
+export PROMPT_COMMAND='__local_bin_prompt_command'
+
 
 ################################################################################
 # Commands                                                                     #
@@ -44,6 +36,10 @@ localbin() {
 # Internals                                                                    #
 ################################################################################
 
+__local_bin_prompt_command() {
+  __local_bin_set_path
+  [[ "$__LOCAL_BIN_USER_PROMPT_COMMAND" ]] && $__LOCAL_BIN_USER_PROMPT_COMMAND
+}
 
 __local_bin_current_path() {
   echo $LOCAL_BIN_DIR$(pwd)
