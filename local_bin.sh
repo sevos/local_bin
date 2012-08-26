@@ -59,12 +59,19 @@ __local_bin_set_path() {
   export __LOCAL_BIN_WORKS=1
 }
 
+__local_bin_create_directory() {
+  [[ -e "$1" ]] || mkdir -p $1
+}
+
 __local_bin_cd() {
+  __local_bin_create_directory $(__local_bin_current_path)
+  echo "Switching to local_bin directory for $(pwd)"
+  echo "To go back type: cd -"
   cd $(__local_bin_current_path)
 }
 
 __local_bin_edit() {
-  mkdir -p $(__local_bin_current_path)
+  __local_bin_create_directory $(__local_bin_current_path)
   if [[ "$1" ]]; then
     edit -w $(__local_bin_current_path)/$1
   else
