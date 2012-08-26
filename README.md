@@ -36,7 +36,7 @@ localbin edit testall
 
 It will open your default editor with empty file. Type your script there.
 
-It might happen that some commands you want to execute, require your `.bashrc`. Don't bother to type `source ~/.bashrc &>/dev/null` at the beginning of your script.
+It might happen that some commands you want to execute, require your `.bashrc`. Don't bother to type `. ~/.bashrc &>/dev/null` at the beginning of your script.
 
 When you save the script, it will appear immediately available in your console, but only for directory, which `localbin edit` was called from.
 
