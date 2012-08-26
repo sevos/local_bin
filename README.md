@@ -4,6 +4,29 @@ Often, in order to improve my performance, I create custom aliases or commands i
 
 ## Usage
 
+### TL;DR
+
+```
+$ cd projects/whoah
+$ localbin edit suite
+
+#!/bin/bash
+. ~/.bashrc &>/dev/null
+rvm use $(rvm current) &>/dev/null
+rake db:migrate db:test:prepare && \
+bundle exec rspec spec && \
+bundle exec cucumber
+
+$ suite
+
+# stuff gets done
+
+$ cd ..
+$ suite
+-bash: suite: command not found
+
+```
+
 Let's assume that in order to run full test suite of your app, you need to perform few steps, specific to your local machine only, and after that type a long command. You could automate this and squash into one script living somewhere and an alias in your `.bashrc`. But you can do better:
 
 ```
@@ -49,6 +72,10 @@ By default local bin stores all custom commands under directory structure laying
 export LOCAL_BIN_DIR=~/.dotfiles/local_bin
 . ~/.local_bin/local_bin.sh
 ```
+
+# Contribution
+
+Pull requests and feature requests are welcome!
 
 # License
 
