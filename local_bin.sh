@@ -13,7 +13,7 @@ fi
 
 export PROMPT_COMMAND='__local_bin_prompt_command'
 
-if [[ "$SHELL" =~ "zsh" ]]; then
+if [[ -n "${ZSH_VERSION}" ]]; then
   precmd() {
     $PROMPT_COMMAND
   }
