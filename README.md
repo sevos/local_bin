@@ -73,6 +73,22 @@ export LOCAL_BIN_DIR=~/.dotfiles/local_bin
 . ~/.local_bin/local_bin.sh
 ```
 
+### Recursive bins
+
+You can set environment variable `LOCAL_BIN_RECURSIVE=1`, and in your path will
+land all commands available for upper directories. It means that in `/home/projects/abc`
+directory you'll have available commands defined for:
+
+* `/home/projects/abc`
+* `/home/projects`
+* `/home`
+* `/`
+
+Commands defined in deeper directory override commands defined in higher directory.
+
+When this option is turned on, you can define commands in `/` as global aliases
+for your shell!
+
 # Contribution
 
 Pull requests and feature requests are welcome!

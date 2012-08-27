@@ -13,7 +13,9 @@ fi
 
 export PROMPT_COMMAND='__local_bin_prompt_command'
 
+
 if [[ -n "${ZSH_VERSION}" ]]; then
+  # TODO: what if precmd() is already defined?
   precmd() {
     $PROMPT_COMMAND
   }
@@ -55,13 +57,31 @@ __local_bin_current_path() {
   echo $LOCAL_BIN_DIR$(pwd)
 }
 
-# Call this function in the beginning of your prompt_command
+__local_bin_recursively_build_paths() {
+  local path=$1 acc=$2 updir
+  if [[ -n "$acc" ]]; then
+    updir=$(dirname $path)
+    acc=$acc:$updir
+    if [[ "$updir" == "$LOCAL_BIN_DIR" ]]; then
+      echo $acc
+    else
+      __local_bin_recursively_build_paths $updir, $acc
+    fi
+  else
+    __local_bin_recursively_build_paths $path $path
+  fi
+}
+
 __local_bin_set_path() {
   local sed_filter cleaned_path
   sed_filter="s#\\${LOCAL_BIN_DIR}/[^:]*:##g"
   cleaned_path=$(echo $PATH | sed $sed_filter)
   chmod -R +x $LOCAL_BIN_DIR/*
-  export PATH=$(__local_bin_current_path):$cleaned_path
+  if [[ "$LOCAL_BIN_RECURSIVE" == "1" ]]; then
+    export PATH=$(__local_bin_recursively_build_paths $(__local_bin_current_path)):$cleaned_path
+  else
+    export PATH=$(__local_bin_current_path):$cleaned_path
+  fi
   export __LOCAL_BIN_WORKS=1
 }
 
