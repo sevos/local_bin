@@ -25,11 +25,17 @@ fi
 local_bin() {
   local cmd=$1
 
-  if [[ "$cmd" == "cd" ]]; then
-    __local_bin_cd
-  elif [[ "$cmd" == "edit" ]]; then
-    __local_bin_edit $2
-  fi
+  case "$cmd" in
+    'cd')
+      __local_bin_cd
+      ;;
+    'edit')
+      __local_bin_edit $2
+      ;;
+    *)
+      __local_bin_help
+      ;;
+  esac
 }
 
 localbin() {
