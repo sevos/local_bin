@@ -7,7 +7,7 @@
 
 # Try to set local bin as prompt command
 
-if [[ -n "$PROMPT_COMMAND" ]]; then
+if [[ -n "$PROMPT_COMMAND" && "$PROMPT_COMMAND" != "__local_bin_prompt_command" ]]; then
   export __LOCAL_BIN_USER_PROMPT_COMMAND=$PROMPT_COMMAND
 fi
 
