@@ -59,8 +59,8 @@ __local_bin_current_path() {
 
 __local_bin_recursively_build_paths() {
   local path=$1 acc=$2 updir
-  if [[ "$path" == "$LOCAL_BIN_DIR" ]]; then
-    echo $path
+  if [[ "$path" == "$LOCAL_BIN_DIR/" ]]; then
+    echo $LOCAL_BIN_DIR
     return
   fi
   if [[ -n "$acc" ]]; then
