@@ -3,17 +3,21 @@
 ################################################################################
 
 # Setup local bin dir
-[[ "$LOCAL_BIN_DIR" ]] || export LOCAL_BIN_DIR=$HOME/.local_bin
+[[ -n "$LOCAL_BIN_DIR" ]] || export LOCAL_BIN_DIR=$HOME/.local_bin
 
 # Try to set local bin as prompt command
 
-if [[ "$PROMPT_COMMAND" ]]; then
+if [[ -n "$PROMPT_COMMAND" ]]; then
   export __LOCAL_BIN_USER_PROMPT_COMMAND=$PROMPT_COMMAND
 fi
 
 export PROMPT_COMMAND='__local_bin_prompt_command'
 
-
+if [[ "$SHELL" =~ "zsh" ]]; then
+  precmd() {
+    $PROMPT_COMMAND
+  }
+fi
 ################################################################################
 # Commands                                                                     #
 ################################################################################
@@ -38,7 +42,7 @@ localbin() {
 
 __local_bin_prompt_command() {
   __local_bin_set_path
-  [[ "$__LOCAL_BIN_USER_PROMPT_COMMAND" ]] && $__LOCAL_BIN_USER_PROMPT_COMMAND
+  [[ -n "$__LOCAL_BIN_USER_PROMPT_COMMAND" ]] && $__LOCAL_BIN_USER_PROMPT_COMMAND
 }
 
 __local_bin_current_path() {
@@ -68,10 +72,10 @@ __local_bin_cd() {
 
 __local_bin_edit() {
   __local_bin_create_directory $(__local_bin_current_path)
-  if [[ "$1" ]]; then
-    edit -w $(__local_bin_current_path)/$1
+  if [[ -n "$1" ]]; then
+    $EDITOR $(__local_bin_current_path)/$1
   else
-    edit $(__local_bin_current_path)
+    $EDITOR $(__local_bin_current_path)
   fi
 }
 
