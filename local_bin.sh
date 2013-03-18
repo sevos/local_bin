@@ -78,7 +78,7 @@ __local_bin_recursively_build_paths() {
 
 __local_bin_set_path() {
   local sed_filter cleaned_path
-  sed_filter="s#\\${LOCAL_BIN_DIR}/[^:]*:##g"
+  sed_filter="s#\\${LOCAL_BIN_DIR}[^:]*:##g"
   cleaned_path=$(echo $PATH | sed $sed_filter)
   chmod -R +x $LOCAL_BIN_DIR/*
   if [[ "$LOCAL_BIN_RECURSIVE" == "1" ]]; then
